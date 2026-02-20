@@ -9,9 +9,8 @@ from jinja2 import Template
 from config.settings import AgentPersona, UserProfile
 from memory.long_term import MemoryResult
 
-# The template is optimised for phi4-mini: short sentences, explicit field
+# The template is optimised for small models: short sentences, explicit field. 
 # descriptions, concrete examples for EACH tool.
-# All text is English-only. No emoji anywhere.
 
 SYSTEM_TEMPLATE = Template(
     """\

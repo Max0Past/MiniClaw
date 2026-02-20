@@ -60,7 +60,15 @@ def render_chat_page(agent: AgentCore) -> None:
                 with st.chat_message("assistant"):
                     with st.spinner("Thinking..."):
                         response = agent.handle_message(user_input)
-                    st.markdown(response.answer)
+                    
+                    # Simulate streaming the final answer
+                    import time
+                    def stream_response(text: str):
+                        for chunk in text.split(" "):
+                            yield chunk + " "
+                            time.sleep(0.02)
+                    
+                    st.write_stream(stream_response(response.answer))
 
                 st.session_state["chat_history"].append(
                     {"role": "assistant", "content": response.answer}

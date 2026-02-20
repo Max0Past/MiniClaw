@@ -70,7 +70,7 @@ Other models that work:
 
 ---
 
-### Option A: Conda (recommended)
+### Option A: Conda (recommended (and used by me))
 
 Conda handles Python version and native dependencies automatically.
 
@@ -114,9 +114,29 @@ source .venv/bin/activate       # Linux / macOS
 pip install -e ".[dev]"
 ```
 
-### Option C: pip (global install)
+### Option C: uv (fastest)
 
-Not recommended, but works for quick testing:
+If you use [uv](https://docs.astral.sh/uv/), installation is extremely fast:
+
+```bash
+# 1. Clone the repository
+git clone <repo-url>
+cd MiniClaw
+
+# 2. Create a virtual environment
+uv venv
+
+# 3. Activate it
+source .venv/bin/activate       # Linux / macOS
+# .venv\Scripts\activate        # Windows
+
+# 4. Install all dependencies
+uv pip install -e ".[dev]"
+```
+
+### Option D: pip (global install)
+
+Not recommended, but still an option:
 
 ```bash
 pip install -e .
@@ -144,8 +164,17 @@ print('Ollama OK, models:', [m.model for m in models.models])
 ## Running the App
 
 ```bash
+cd <Your/Path/To/MiniClaw>
+#Pull model if not already pulled
+ollama pull qwen3:4b
 # Make sure Ollama is running in another terminal:
 ollama serve
+#activate environment
+# if using pip or uv
+source .venv/bin/activate 
+
+# if using conda
+conda activate miniclaw
 
 # Start the Streamlit app:
 streamlit run app.py
@@ -156,11 +185,11 @@ The app opens at **http://localhost:8501**.
 ### First Launch
 
 On the first launch:
-```markdown
+
 1. **IMPORTANT**: ChromaDB will initialise its embedding model (`all-MiniLM-L6-v2` via ONNX). This may take 30-60 seconds the first time.
 2. The app will show a health check banner if Ollama is unreachable. Make sure `ollama serve` is running and the selected model is pulled.
 3. Default settings are created in `data/settings.json`. You can change them via the sidebar.
-```
+
 
 ---
 
@@ -216,9 +245,3 @@ Use the sidebar to set:
 - Ollama model and temperature
 
 Settings are persisted to `data/settings.json` and survive restarts.
-
----
-
-## License
-
-MIT
